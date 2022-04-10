@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.expression.AccessException;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 @Service
@@ -42,5 +43,17 @@ public class FacultyService {
 		List<Faculty> list = getAllFaculties();
 		list.removeIf(e -> !e.getColor().equals(color));
 		return list;
+	}
+
+	public List<Faculty> findByNameOrColor(String name, String color) {
+		return repository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
+	}
+
+	public List<Student> getStudentsByFacultyId(Long id) {
+		Faculty obj = getFaculty(id);
+		if(obj == null) {
+			return null;
+		}
+		return obj.getStudents();
 	}
 }
