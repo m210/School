@@ -44,13 +44,8 @@ public class StudentController {
 	
 	@DeleteMapping("{id}")
 	public ResponseEntity deleteStudent(@PathVariable Long id) {
-		Student obj = service.deleteStudent(id);
-
-		if(obj == null) {
-			return ResponseEntity.badRequest().build();
-		}
-
-		return ResponseEntity.ok(obj);
+		service.deleteStudent(id);
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("filter/{age}")
@@ -58,7 +53,7 @@ public class StudentController {
 		return service.getStudentsByAge(age);
 	}
 
-	@GetMapping()
+	@GetMapping("/all")
 	public List<Student> getAllStudents() {
 		return service.getAllStudents();
 	}
