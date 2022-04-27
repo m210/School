@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.stylesheets.LinkStyle;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.service.AvatarService;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("avatars")
@@ -64,5 +66,10 @@ public class AvatarController {
         }
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/findAll")
+    public List<Avatar> findAll(@RequestParam int number, @RequestParam int size) {
+        return service.findAll(number, size);
     }
 }

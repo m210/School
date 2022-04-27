@@ -55,4 +55,16 @@ public class StudentService {
 		return student.getFaculty();
 	}
 
+	public int getStudentsAmount() {
+		return repository.getStudentsAmount();
+	}
+
+	public double getAverageAge() {
+		return repository.getAverageAge();
+	}
+
+	public List<Student> getFiveLastStudents() {
+		return  repository.getFiveLastStudents();
+	}
+
 }
