@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,5 +91,20 @@ public class StudentService {
 		logger.info("Get five last students");
 		return  repository.getFiveLastStudents();
 	}
+
+	public List<String> getStudentsWithNameStartsA() {
+		return repository.findAll().stream()
+				.map(a -> a.getName().toUpperCase())
+				.filter(a -> a.startsWith("A"))
+				.sorted()
+				.collect(Collectors.toList());
+	}
+
+	public double getAverageAgeByStream() {
+		return repository.findAll().stream()
+				.mapToDouble(a -> a.getAge())
+				.average().orElseThrow();
+	}
+
 
 }

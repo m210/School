@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,5 +76,34 @@ public class FacultyService {
 		logger.info("The faculty with identifier {} is found", id);
 
 		return obj.getStudents();
+	}
+
+	public String getFacultyLongName() {
+		return repository.findAll().stream().map(a -> a.getName()).max((a,b) -> a.length() - b.length()).orElseThrow();
+	}
+
+	public int getSum(int variants) {
+		final int size = 1_000_000;
+		switch(variants) {
+			case 0: // 41ms
+				return Stream.iterate(1, a -> a + 1).limit(size).reduce(0, (a, b) -> a + b );
+			case 1: // 29ms
+				return Stream.iterate(1, a -> a + 1).parallel().limit(size).reduce(0, (a, b) -> a + b );
+			case 2: // 28ms
+				return Stream.iterate(1, a -> a + 1).parallel().limit(size).mapToInt(a -> a).sum();
+			case 3: // 3ms
+				int sum = 0;
+				for (int i = 0; i < size; i++) {
+					sum += (i + 1);
+				}
+				return sum;
+			case 4: // 5ms (parallel) - 8ms (successively)
+				int[] arr = new int[size];
+				for (int i = 0; i < size; i++) {
+					arr[i] = (i + 1);
+				}
+				return Arrays.stream(arr).sum();
+		}
+		throw new RuntimeException("Doesn't support");
 	}
 }
