@@ -103,4 +103,16 @@ public class StudentController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
+
+	@GetMapping("/printStudentNames")
+	public ResponseEntity printStudentNames() {
+		service.printStudentNames();
+		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/printStudentNamesSynchronized")
+	public ResponseEntity printStudentNamesSynchronized() {
+		service.printStudentNamesSynchronized();
+		return ResponseEntity.ok().build();
+	}
 }
