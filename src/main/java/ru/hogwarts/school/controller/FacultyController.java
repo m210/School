@@ -73,6 +73,19 @@ public class FacultyController {
 		}
 
 		return ResponseEntity.ok(obj);
+	}
 
+	@GetMapping("/getFacultyLongName")
+	public ResponseEntity getFacultyLongName() {
+		try {
+			return ResponseEntity.ok(service.getFacultyLongName());
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/getSum/{variants}")
+	public ResponseEntity getSum(@PathVariable Integer variants) {
+		return ResponseEntity.ok(service.getSum(variants));
 	}
 }

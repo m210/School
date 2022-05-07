@@ -89,4 +89,30 @@ public class StudentController {
 	public List<Student> getFiveLastStudents() {
 		return service.getFiveLastStudents();
 	}
+
+	@GetMapping("/getStudentsWithNameStartsA")
+	public ResponseEntity getStudentsWithNameStartsA() {
+		return ResponseEntity.ok(service.getStudentsWithNameStartsA());
+	}
+
+	@GetMapping("/getAverageAgeByStream")
+	public ResponseEntity getAverageAgeByStream() {
+		try {
+			return ResponseEntity.ok(service.getAverageAgeByStream());
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/printStudentNames")
+	public ResponseEntity printStudentNames() {
+		service.printStudentNames();
+		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/printStudentNamesSynchronized")
+	public ResponseEntity printStudentNamesSynchronized() {
+		service.printStudentNamesSynchronized();
+		return ResponseEntity.ok().build();
+	}
 }
