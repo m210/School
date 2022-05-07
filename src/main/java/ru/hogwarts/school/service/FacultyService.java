@@ -79,7 +79,10 @@ public class FacultyService {
 	}
 
 	public String getFacultyLongName() {
-		return repository.findAll().stream().map(a -> a.getName()).max((a,b) -> a.length() - b.length()).orElseThrow();
+		return repository.findAll().stream()
+		    .map(a -> a.getName())
+		    .max((a,b) -> a.length() - b.length())
+		    .orElseThrow();
 	}
 
 	public int getSum(int variants) {
