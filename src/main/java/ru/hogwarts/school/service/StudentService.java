@@ -137,23 +137,25 @@ public class StudentService {
 	}
 
 	public void printStudentNamesSynchronized() {
-		final List<String> list = repository.findAll().stream()
-				.map(a -> a.getName())
-				.collect(Collectors.toList());
-
 		Runnable main = () -> {
-			printStudentName(list, 0);
-			printStudentName(list, 1);
+			synchronized(repository) {
+				printStudentName(0);
+				printStudentName(1);
+			}
 		};
 
 		Thread thread1 = new Thread(() -> {
-			printStudentName(list, 2);
-			printStudentName(list, 3);
+			synchronized(repository) {
+				printStudentName(2);
+				printStudentName(3);
+			}
 		});
 
 		Thread thread2 = new Thread(() -> {
-			printStudentName(list, 4);
-			printStudentName(list, 5);
+			synchronized(repository) {
+				printStudentName(4);
+				printStudentName(5);
+			}
 		});
 
 		main.run();
@@ -161,7 +163,20 @@ public class StudentService {
 		thread2.start();
 	}
 
-	private synchronized void printStudentName(List<String> list, int index) {
-		System.out.println(list.get(index));
+	private void printStudentName(long index) {
+
+		// Быдлокод для поиска студента по индексу))
+		long st_index = -1;
+		for(Student student : repository.findAll()) {
+			if(++st_index == index) {
+				st_index = student.getId();
+				break;
+			}
+		}
+
+		System.out.println(repository
+				.findById(st_index)
+				.get()
+				.getName());
 	}
 }
